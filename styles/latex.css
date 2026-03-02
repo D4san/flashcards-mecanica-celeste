@@ -1,0 +1,150 @@
+/* LaTeX Rendering Styles */
+.latex-content {
+  font-family: "Computer Modern", "Latin Modern Math", "Times New Roman", serif;
+  line-height: 1.6;
+}
+
+.inline-math {
+  display: inline;
+  vertical-align: baseline;
+}
+
+.block-math {
+  display: block;
+  text-align: center;
+  margin: 1rem 0;
+  padding: 0.5rem;
+}
+
+/* Fractions */
+.fraction {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  margin: 0 0.2em;
+}
+
+.fraction .numerator {
+  display: block;
+  border-bottom: 1px solid currentColor;
+  padding: 0 0.2em 0.1em;
+  font-size: 0.9em;
+  line-height: 1.2;
+}
+
+.fraction .denominator {
+  display: block;
+  padding: 0.1em 0.2em 0;
+  font-size: 0.9em;
+  border-top: 1px solid transparent;
+  line-height: 1.2;
+}
+
+/* Superscripts and Subscripts */
+.superscript {
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+  position: relative;
+  top: -0.1em;
+}
+
+.subscript {
+  font-size: 0.75em;
+  vertical-align: sub;
+  line-height: 0;
+}
+
+/* Square Roots */
+.sqrt {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.2em;
+}
+
+.sqrt-content {
+  border-top: 1px solid currentColor;
+  padding: 0.1em 0.3em 0;
+  margin-left: 0.1em;
+}
+
+/* Unified accent container styles for both vectors and derivatives */
+.vector-container,
+.derivative-container {
+  display: inline-block !important;
+  position: relative !important;
+  margin: 0 0.1em;
+  padding-top: 0.7em !important; /* Reserve space for accent above */
+  vertical-align: baseline !important;
+}
+
+/* Unified accent positioning for arrows and dots */
+.vector-arrow,
+.derivative-dot,
+.derivative-ddot {
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  text-align: center !important;
+  line-height: 1 !important;
+  pointer-events: none;
+}
+
+.vector-arrow {
+  font-size: 0.7em;
+}
+
+.derivative-dot {
+  font-size: 0.7em;
+  letter-spacing: 0;
+}
+
+.derivative-ddot {
+  font-size: 0.6em;
+  letter-spacing: -0.1em;
+}
+
+.vector-base,
+.derivative-base {
+  display: inline-block !important;
+  font-weight: 500;
+}
+
+/* Mathematical formatting */
+.math-bold {
+  font-weight: bold;
+}
+
+.math-calligraphic {
+  font-family: "Brush Script MT", cursive;
+  font-style: italic;
+  font-size: 1.1em;
+}
+
+.math-italic {
+  font-style: italic;
+}
+
+.math-text {
+  font-family: inherit;
+  font-style: normal;
+}
+
+.absolute-value {
+  padding: 0 0.1em;
+}
+
+@media (max-width: 768px) {
+  .fraction {
+    font-size: 0.9em;
+  }
+
+  .superscript,
+  .subscript {
+    font-size: 0.7em;
+  }
+}
