@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   images: {
     remotePatterns: [
       {
@@ -7,7 +8,7 @@ const nextConfig = {
         hostname: 'blob.v0.app',
       },
     ],
-    unoptimized: false,
+    unoptimized: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -17,7 +18,6 @@ const nextConfig = {
   },
   swcMinify: true,
   reactStrictMode: true,
-  output: 'standalone',
 }
 
 export default nextConfig
