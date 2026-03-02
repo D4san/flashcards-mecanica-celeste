@@ -945,7 +945,7 @@ export default function FlashcardApp() {
                       <p className="text-sm sm:text-base font-rajdhani text-red-300/80 mt-1">
                         {gameState.teamMembers.filter((m) => m.answeredCorrectly).length > 0
                           ? "La escuadra leyó la emboscada"
-                          : "La emboscada rompió la formación..."}
+                          : "La emboscada rompió la formación…"}
                       </p>
                     </div>
                     <Zap className="w-8 h-8 text-red-400 animate-pulse drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]" />
@@ -965,8 +965,7 @@ export default function FlashcardApp() {
                 exit={{ opacity: 0, scale: 0.8, y: -50, rotateX: -10 }}
                 transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
                 className="card-glass rounded-2xl p-8 cursor-pointer border hover:border-indigo-400/50 transition-colors duration-300 relative group"
-                onClick={handleFlip}
-              >
+                onClick={handleFlip} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleFlip(); }} role="button" tabIndex={0}>
                 {/* Decorative corners */}
                 <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-indigo-500/50 rounded-tl-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
                 <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-indigo-500/50 rounded-tr-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
@@ -1054,7 +1053,7 @@ export default function FlashcardApp() {
                 onClick={handleFlip}
                 variant="outline"
                 size="lg"
-                className="bg-space-900/80 backdrop-blur-md hover:bg-indigo-900/40 text-indigo-300 border-indigo-500/50 font-audiowide tracking-wider hover:text-indigo-200 transition-all duration-300 shadow-[0_0_15px_rgba(99,102,241,0.15)] hover:shadow-[0_0_25px_rgba(99,102,241,0.3)]"
+                className="bg-space-900/80 backdrop-blur-md hover:bg-indigo-900/40 text-indigo-300 border-indigo-500/50 font-audiowide tracking-wider hover:text-indigo-200 transition-[background-color,border-color,color,box-shadow] duration-300 shadow-[0_0_15px_rgba(99,102,241,0.15)] hover:shadow-[0_0_25px_rgba(99,102,241,0.3)]"
               >
                 <RotateCcw className="h-4 w-4 mr-3" />
                 REPLANTEAR ESTRATEGIA
@@ -1066,3 +1065,4 @@ export default function FlashcardApp() {
     </div>
   )
 }
+

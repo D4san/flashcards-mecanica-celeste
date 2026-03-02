@@ -147,7 +147,7 @@ export function TeamSetup({ onStartGame, onRecruit }: TeamSetupProps) {
                 name="classSelect"
                 value={selectedClass}
                 onChange={(e) => setSelectedClass(e.target.value)}
-                className="w-full p-2.5 h-10 border rounded-md bg-space-900 border-indigo-500/40 text-indigo-100 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400/50 font-rajdhani text-lg"
+                className="w-full p-2.5 h-10 border rounded-md bg-space-900 border-indigo-500/40 text-indigo-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-400/50 focus-visible:border-indigo-400 font-rajdhani text-lg"
               >
                 <option value="" className="bg-space-900 text-indigo-400/50">
                   -- Seleccionar Clase --
@@ -163,7 +163,7 @@ export function TeamSetup({ onStartGame, onRecruit }: TeamSetupProps) {
               <Button
                 onClick={addTeamMember}
                 disabled={!newMemberName.trim() || !selectedClass || teamMembers.length >= 8}
-                className="w-full h-11 bg-indigo-600/80 hover:bg-indigo-500 text-white border border-indigo-400/50 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-all font-audiowide tracking-wider"
+                className="w-full h-11 bg-indigo-600/80 hover:bg-indigo-500 text-white border border-indigo-400/50 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-[background-color,border-color,box-shadow,transform] font-audiowide tracking-wider"
               >
                 <Plus className="w-5 h-5 mr-3" />
                 RECLUTAR
@@ -183,7 +183,7 @@ export function TeamSetup({ onStartGame, onRecruit }: TeamSetupProps) {
               >
                 <Button
                   variant="ghost"
-                  className={`relative w-full min-h-[148px] h-auto p-0 flex items-start justify-start space-x-4 hover:scale-102 transition-all duration-300 bg-space-900/60 border rounded-xl overflow-hidden whitespace-normal ${
+                  className={`relative w-full min-h-[148px] h-auto p-0 flex items-start justify-start space-x-4 hover:scale-102 transition-[background-color,border-color,box-shadow,transform] duration-300 bg-space-900/60 border rounded-xl overflow-hidden whitespace-normal ${
                     selectedClass === rpgClass.id
                       ? "border-indigo-400 bg-indigo-900/30 shadow-[0_0_25px_rgba(99,102,241,0.4)]"
                       : "border-indigo-500/20 hover:border-indigo-400/60 hover:bg-indigo-900/10"
@@ -272,7 +272,7 @@ export function TeamSetup({ onStartGame, onRecruit }: TeamSetupProps) {
                           </div>
                         )}
                       </div>
-                      <div className="flex-1 overflow-hidden">
+                      <div className="flex-1 overflow-hidden min-w-0">
                         <div className="font-bold text-indigo-100 text-lg leading-tight truncate">{member.name}</div>
                         <div className="text-xs text-indigo-400/80 uppercase font-audiowide tracking-widest truncate">{member.class}</div>
                       </div>
@@ -297,7 +297,7 @@ export function TeamSetup({ onStartGame, onRecruit }: TeamSetupProps) {
             <Button
               onClick={() => onStartGame(teamMembers)}
               disabled={!canStartGame}
-              className="w-full text-base md:text-xl py-8 font-audiowide tracking-[0.2em] bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 border border-indigo-400/50 shadow-[0_0_20px_rgba(99,102,241,0.4)] disabled:opacity-50 disabled:shadow-none transition-all duration-500 uppercase rounded-xl"
+              className="w-full text-base md:text-xl py-8 font-audiowide tracking-[0.2em] bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 border border-indigo-400/50 shadow-[0_0_20px_rgba(99,102,241,0.4)] disabled:opacity-50 disabled:shadow-none transition-[background-color,border-color,box-shadow,transform] duration-500 uppercase rounded-xl"
             >
               {canStartGame
                 ? `INICIAR CACERÍA [${teamMembers.length} HÉROES]`

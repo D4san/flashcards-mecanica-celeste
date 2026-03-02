@@ -20,10 +20,15 @@ const audiowide = Audiowide({
   subsets: ["latin"],
 })
 
+export const viewport = {
+  themeColor: '#0a0a0f',
+}
+
 export const metadata: Metadata = {
   title: "Asalto Astral de Mecánica Celeste",
   description: "Juego educativo de mecánica celeste con flashcards RPG",
-    generator: 'v0.app'
+    generator: 'v0.app',
+
 }
 
 export default function RootLayout({
@@ -32,8 +37,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className="dark">
+    <html lang="es" className="dark" style={{colorScheme: "dark"}}>
       <body className={`${cinzel.variable} ${rajdhani.variable} ${audiowide.variable} font-rajdhani antialiased bg-space-900 text-space-100`}>{children}</body>
     </html>
   )
 }
+

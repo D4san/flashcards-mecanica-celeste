@@ -70,7 +70,7 @@ export function SoundControl({
         size="icon"
         className="card-glass border-indigo-500/40 hover:border-indigo-400 hover:bg-space-800/80 rounded-full h-12 w-12 shadow-[0_0_15px_rgba(99,102,241,0.2)] hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] transition-[background-color,border-color,box-shadow]"
         onClick={handleClick}
-        title={isMuted ? "Invocar cantos de batalla" : "Silenciar cantos de batalla"}
+        title={isMuted ? "Invocar cantos de batalla" : "Silenciar cantos de batalla"} aria-label={isMuted ? "Activar sonido" : "Silenciar sonido"}
       >
         {isMuted ? (
           <VolumeX className="h-5 w-5 text-indigo-400/50" />

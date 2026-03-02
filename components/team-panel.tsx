@@ -111,7 +111,7 @@ export function TeamPanel({
                     size="sm"
                     variant="outline"
                     aria-label={`Respuesta correcta de ${member.name}`}
-                    className="flex-1 text-emerald-400 border-emerald-500/50 hover:bg-emerald-950/50 hover:border-emerald-400 bg-space-900/50 transition-all font-audiowide"
+                    className="flex-1 text-emerald-400 border-emerald-500/50 hover:bg-emerald-950/50 hover:border-emerald-400 bg-space-900/50 transition-[background-color,border-color] font-audiowide"
                     onClick={() => onMemberAnswer(member.id, true)}
                   >
                     <Check className="w-5 h-5" />
@@ -120,7 +120,7 @@ export function TeamPanel({
                     size="sm"
                     variant="outline"
                     aria-label={`Respuesta incorrecta de ${member.name}`}
-                    className="flex-1 text-red-400 border-red-500/50 hover:bg-red-950/50 hover:border-red-400 bg-space-900/50 transition-all font-audiowide"
+                    className="flex-1 text-red-400 border-red-500/50 hover:bg-red-950/50 hover:border-red-400 bg-space-900/50 transition-[background-color,border-color] font-audiowide"
                     onClick={() => onMemberAnswer(member.id, false)}
                   >
                     <X className="w-5 h-5" />
