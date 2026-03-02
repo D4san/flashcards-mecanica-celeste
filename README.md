@@ -1,85 +1,77 @@
 # Cacería Astral de Mecánica Celeste (UdeA)
 
-Aplicación web gamificada para repasar rápidamente conceptos vistos en la clase de Mecánica Celeste de la Universidad de Antioquia (UdeA).
+<p align="left">
+  <a href="https://flashcards-mecanica-celeste-udea.netlify.app">
+    <img src="https://img.shields.io/badge/Despliegue-Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white" alt="Despliegue en Netlify" />
+  </a>
+  <img src="https://img.shields.io/badge/Estado-Producci%C3%B3n-success?style=for-the-badge" alt="Estado en producción" />
+  <img src="https://img.shields.io/badge/Framework-Next.js%2014-black?style=for-the-badge&logo=nextdotjs" alt="Framework Next.js 14" />
+  <img src="https://img.shields.io/badge/Curso-Mec%C3%A1nica%20Celeste%20(UdeA)-4A5568?style=for-the-badge" alt="Curso Mecánica Celeste UdeA" />
+  <img src="https://img.shields.io/badge/Modo-Aprendizaje%20Colaborativo-7C3AED?style=for-the-badge" alt="Aprendizaje colaborativo" />
+  <a href="./LICENSE">
+    <img src="https://img.shields.io/badge/Licencia-MIT-blue?style=for-the-badge" alt="Licencia MIT" />
+  </a>
+</p>
 
-La dinámica central promueve el diálogo entre estudiantes: el equipo discute cada pregunta, construye acuerdos y coopera para derrotar a un jefe astral. La cooperación no es un adorno del juego, sino parte del aprendizaje.
+**Demo en Netlify:** https://flashcards-mecanica-celeste-udea.netlify.app
 
-## ¿Qué aporta esta app?
+Aplicación web gamificada para reforzar conceptos del curso de Mecánica Celeste de la Universidad de Antioquia (UdeA), con dinámica colaborativa entre estudiantes.
 
-- Repaso rápido de conceptos clave de mecánica celeste.
-- Trabajo colaborativo en tiempo real entre compañeros.
-- Flujo lúdico de combate por fases para mantener motivación.
-- Retroalimentación inmediata con enfoque didáctico.
+## Objetivo del proyecto
 
-## Mecánica general
+- Promover discusión académica en equipo.
+- Reforzar conceptos clave mediante preguntas y retroalimentación.
+- Mantener una experiencia lúdica sin perder rigor conceptual.
 
-1. Se configura el equipo.
-2. Aparece una pregunta de repaso.
-3. El equipo discute y responde en conjunto.
-4. Las respuestas correctas causan daño al jefe.
-5. El avance depende de la cooperación y la precisión colectiva.
+## Cómo actualizar preguntas
 
-## Stack
+Las preguntas del juego se editan directamente en:
 
-- Next.js 14
-- React 19
-- TypeScript
-- Tailwind CSS
-- Framer Motion
+- `app/page.tsx`
 
-## Desarrollo local
+Dentro del arreglo `initialFlashcards`, cada objeto usa esta estructura:
+
+```ts
+{
+  question: "Pregunta",
+  answer: "Respuesta correcta",
+  nanswer: "Respuesta falsa (solo para trampa)",
+  isTrap: true // opcional
+}
+```
+
+### Preguntas trampa
+
+- Activa `isTrap: true` para marcar una pregunta como trampa.
+- En preguntas trampa, debes definir `nanswer` con la respuesta falsa.
+- `answer` siempre debe contener la respuesta correcta final.
+
+## Ejecución
+
+### Desde GitHub
+
+Puedes ejecutar el proyecto directamente desde GitHub con Codespaces:
+
+1. Abre el repositorio en GitHub.
+2. Selecciona **Code** → **Codespaces** → **Create codespace on main**.
+3. En la terminal del Codespace, ejecuta:
+   - `npm install --legacy-peer-deps`
+   - `npm run dev`
+
+### En local
 
 Requisitos:
 
 - Node.js 18+
 - npm
 
-Pasos:
+Comandos:
 
-1. Instalar dependencias
-   - npm install --legacy-peer-deps
-2. Ejecutar en desarrollo
-   - npm run dev
-3. Build de producción
-   - npm run build
-4. Correr build local
-   - npm run start
+1. `npm install --legacy-peer-deps`
+2. `npm run dev`
+3. `npm run build`
+4. `npm run start`
 
-## Publicación en GitHub
+## Licencia
 
-1. Inicializar repositorio local (si aún no existe)
-   - git init
-2. Agregar archivos
-   - git add .
-3. Crear commit inicial
-   - git commit -m "feat: cacería astral mecánica celeste"
-4. Crear repositorio remoto en GitHub.
-5. Enlazar remoto y subir rama principal
-   - git remote add origin <URL_DEL_REPO>
-   - git branch -M main
-   - git push -u origin main
-
-## Despliegue en Netlify
-
-Opción A (desde GitHub, recomendado):
-
-1. En Netlify, seleccionar Add new site -> Import an existing project.
-2. Conectar el repo de GitHub.
-3. Build command: npm run build
-4. Publish directory: .next
-5. Deploy.
-
-Opción B (CLI):
-
-1. Instalar CLI
-   - npm i -g netlify-cli
-2. Login
-   - netlify login
-3. Vincular o crear sitio
-   - netlify init
-4. Deploy de producción
-   - netlify deploy --prod
-
-## Nota pedagógica
-
-Este proyecto está diseñado para fortalecer la comprensión conceptual a través de conversación académica entre pares. La meta no es solo “contestar bien”, sino argumentar, contrastar ideas y construir respuestas en equipo para avanzar juntos.
+Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo `LICENSE`.

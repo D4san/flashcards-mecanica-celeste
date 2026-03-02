@@ -19,40 +19,38 @@ import type { TeamMember, GameState, Flashcard } from "@/types/game"
 
 const initialFlashcards: Flashcard[] = [
   {
-    "question": "El telescopio JWST está en una órbita alrededor del Sol más lejos que la Tierra, pero mantiene un periodo orbital de un año (sincronizado con la Tierra) para asegurar la comunicación constante. Si la Tercera Ley de Kepler establece que el cuerpo más lejano debe tener un periodo mayor, conceptualice por qué la existencia de esta órbita tecnológicamente crucial demuestra que la teoría de los dos cuerpos es \"miserablemente fallida\" para estos sistemas.",
-    "answer": "La Tercera Ley de Kepler (el teorema armónico) establece una relación directa entre el semieje mayor ($a$) y el periodo orbital, $n \\propto (\\mu/a^3)^{1/2}$. Si el JWST estuviera solo en interacción con el Sol (problema de dos cuerpos), su periodo sería mayor que el de la Tierra. El hecho de que mantenga el mismo periodo revela que la fuerza gravitacional del tercer cuerpo (la Tierra) es lo suficientemente significativa como para alterar las leyes del movimiento kepleriano. Esto obliga a utilizar una teoría nueva (el problema de tres cuerpos) para describir las reglas bajo las cuales ocurre esta sincronía."
+    "question": "Si tomamos una fotografía mágica de todo el Sistema Solar donde vemos exactamente la posición de cada planeta en este instante, ¿por qué esa foto es insuficiente para predecir cómo se moverán un segundo después?",
+    "answer": "Físicamente, la fuerza de gravedad determina la aceleración de un cuerpo, no su posición directa. Matemáticamente, estamos tratando con ecuaciones diferenciales de segundo orden, lo que significa que el estado futuro de un sistema no es único solo con conocer su función (la posición); obligatoriamente necesitamos conocer su primera derivada (la velocidad). Sin la velocidad instantánea, no sabemos la dirección ni la rapidez con la que las posiciones están a punto de cambiar."
   },
   {
-    "question": "Si los sistemas dinámicos caóticos, como los que se encuentran en la atmósfera (el clima) o en las órbitas planetarias (como la posible expulsión de Mercurio en 700 millones de años), son gobernados por ecuaciones newtonianas deterministas, ¿por qué se afirma que el caos implica la imposibilidad de la predicción a largo plazo para los científicos?",
-    "answer": "El caos se define como una extrema sensibilidad a las condiciones iniciales. Aunque las ecuaciones son deterministas, en la naturaleza es imposible medir las condiciones iniciales (posición y velocidad) con infinita precisión. Si un cambio mínimo (como un error de 10 cm/s en el quinto dígito decimal de una velocidad) provoca una evolución futura completamente distinta, el inevitable margen de error en la medición se amplifica exponencialmente. Por lo tanto, el problema de la impredictibilidad es natural, no numérico, ya que nuestro conocimiento inicial del sistema es intrínsecamente imperfecto.",
-    "nanswer": "El caos implica que, a largo plazo, las leyes deterministas de Newton dejan de ser válidas debido a la complejidad del sistema. Cuando un sistema entra en régimen caótico, las ecuaciones diferenciales lineales se rompen y el comportamiento pasa a ser probabilístico, similar a la mecánica cuántica. Por eso es imposible predecir el clima: las leyes físicas cambian de deterministas a aleatorias cuando hay demasiadas variables.",
+    "question": "El sistema de ecuaciones del problema de los $N$ cuerpos se clasifica como \"no lineal\". ¿Qué implicación filosófica y práctica tiene el fenómeno del caos al intentar predecir la órbita de un objeto a escalas de miles de años?",
+    "answer": "El caos implica que una minúscula incertidumbre en nuestras mediciones iniciales se amplifica enormemente con el paso del tiempo. Prácticamente, significa que equivocarse por apenas un centímetro hoy puede resultar en trayectorias completamente distintas en mil años. Esto nos revela que, sin importar cuán perfecta sea nuestra teoría física o nuestras computadoras, existe un límite fundamental en nuestra capacidad de predicción a largo plazo en el universo."
+  },
+  {
+    "question": "Dado que el problema diferencial es tan difícil, los físicos buscan \"cuadraturas\" (o integrales de movimiento) como la conservación del momentum. ¿Cuál es el valor conceptual profundo de encontrar una cuadratura en un sistema dinámico que no podemos resolver por completo?",
+    "answer": "Encontrar una cuadratura significa identificar una propiedad oculta en el sistema que se mantiene inmutable a pesar del caos constante de los cuerpos en movimiento (independientemente del tiempo). Su mayor poder matemático es que transforma un fragmento de un complejo problema diferencial (basado en el cambio) en un problema de álgebra pura (basado en proporciones fijas), permitiéndonos extraer verdades universales del sistema sin siquiera tener que calcular la órbita individual de cada partícula."
+  },
+  {
+    "question": "El baricentro de un sistema planetario (como el Sistema Solar) a menudo se ubica en el vacío, en un lugar donde no existe absolutamente ninguna masa material. Si ahí no hay \"nada\", ¿por qué se erige como el concepto de referencia más importante de la mecánica celeste?",
+    "answer": "Porque, independientemente del caos interno, la danza de los planetas y los millones de estrellas que interactúen, el baricentro es el único punto puramente geométrico del sistema que obedece una regla suprema: se mueve con velocidad constante (o nula) en el espacio. Esto lo convierte en el ancla ideal para fijar nuestro sistema de referencias inerciales, permitiendo que la física newtoniana se aplique sin las deformaciones que sufriríamos si nos pusiéramos sobre un planeta en constante aceleración.",
+    "nanswer": "Porque el baricentro es el único punto en todo el sistema planetario donde la suma vectorial de la gravedad de todos los cuerpos se anula por completo, creando un punto de \"gravedad cero absoluto\". Físicamente, al no haber fuerzas netas interactuando en esa coordenada geométrica específica, las ecuaciones de la mecánica clásica colapsan en valores triviales. Esto evita que los simuladores matemáticos arrojen errores al dividir por cero cuando intentan calcular aproximaciones orbitales cercanas al Sol.",
     "isTrap": true
   },
   {
-    "question": "El formalismo newtoniano (vectorial) requiere la aplicación de $\\vec{F} = m\\vec{a}$. ¿Cuál es el principal obstáculo práctico y conceptual que enfrentan los ingenieros o físicos al aplicar este formalismo a sistemas mecánicos con restricciones (como barras, cables o superficies) que lleva a la necesidad de la Mecánica Analítica?",
-    "answer": "El formalismo vectorial exige el conocimiento de todas las fuerzas que actúan sobre el sistema. El obstáculo principal son las fuerzas de ligadura o restricción (como las tensiones $\\vec{T}$, las reacciones $\\vec{N}$ o los esfuerzos internos), las cuales no tienen una fórmula explícita. En el enfoque de Newton, el cálculo o la eliminación algebraica de estas fuerzas indeterminadas hace que la resolución del problema sea complicada y no sistemática."
+    "question": "Al sumar todas las ecuaciones vectoriales individuales de un sistema de $N$ cuerpos, el lado de las fuerzas gravitacionales se convierte de inmediato en \"cero\". Conceptual y físicamente, ¿qué representa este cero y por qué ocurre?",
+    "answer": "Este cero es la encarnación matemática de la Tercera Ley de Newton (el principio de acción y reacción). Físicamente, representa que las fuerzas de atracción gravitacional son mutuas e internas al sistema; por cada \"jalón\" que la Tierra le da a la Luna, la Luna da un jalón igual y opuesto a la Tierra. Al sumarlas todas para observar el comportamiento \"global\", estas fuerzas se anulan entre sí, demostrando que un sistema aislado es incapaz de acelerarse a sí mismo."
   },
   {
-    "question": "La \"idea genial\" de D’Alembert y Lagrange para superar el obstáculo de las fuerzas de restricción se basa en el trabajo virtual ($\\vec{F} \\cdot \\delta\\vec{r}$). Explique por qué el desplazamiento virtual ($\\delta\\vec{r}$) debe ser compatible con las restricciones del sistema para que el formalismo logre su objetivo principal: deshacerse de las fuerzas \"malucas\" (de restricción).",
-    "answer": "La compatibilidad es esencial porque, por definición, el trabajo realizado por una fuerza de restricción ideal (como una tensión en una cuerda inextensible) es cero si el desplazamiento virtual $\\delta\\vec{r}$ es perpendicular a la fuerza. Al imponer esta condición, se garantiza que las fuerzas de restricción, que son las más difíciles de modelar, desaparezcan automáticamente de la ecuación del principio de los trabajos virtuales, simplificando el problema.",
-    "nanswer": "El desplazamiento virtual es una herramienta matemática que representa el movimiento real que experimenta el sistema en un intervalo de tiempo extremadamente pequeño ($dt \\to 0$). Al hacer el tiempo casi cero, las fuerzas de restricción no tienen tiempo suficiente para realizar trabajo significativo, y por eso podemos eliminarlas de las ecuaciones, simplificando el cálculo newtoniano mediante aproximaciones infinitesimales.",
-    "isTrap": true
+    "question": "Las computadoras no procesan eficientemente ecuaciones con segundas derivadas (aceleración). El método de \"linealización\" soluciona esto, pero ¿qué precio matemático se debe pagar para rebajar el grado de las ecuaciones a uno de primer orden?",
+    "answer": "El \"precio\" es el aumento drástico en la dimensión del sistema. Al inventarnos variables nuevas artificiales para la velocidad (diciendo simplemente que la velocidad es la derivada de la posición), logramos deshacernos de la segunda derivada, pero ahora el número total de ecuaciones se duplica. Un sistema que antes tenía $3N$ ecuaciones de segundo orden, mágicamente se infla a $6N$ ecuaciones de primer orden acopladas."
   },
   {
-    "question": "El principio de D'Alembert original aplica a sistemas en equilibrio. Para adaptarlo a la dinámica (sistemas en movimiento), Lagrange postuló el principio $\\sum (\\vec{F}_i^a - \\vec{\\dot{p}}_i) \\cdot \\delta\\vec{r}_i = 0$. ¿Qué justificación conceptual hay para incluir el término del momentum ($\\vec{\\dot{p}}$) con signo negativo, y cómo transforma esto el problema dinámico en uno de \"equilibrio\"?",
-    "answer": "La justificación es que el principio se aplica desde el sistema de referencia de la partícula en movimiento (un sistema no inercial). Al hacer esto, aparecen las fuerzas ficticias (o resultantes), que son proporcionales a la inercia ($\\vec{F}_{\\text{inercia}} = -\\vec{\\dot{p}}$). Al incluir estas fuerzas junto a las fuerzas aplicadas ($\\vec{F}^a$), la sumatoria total se comporta como si el sistema estuviera en equilibrio en ese marco de referencia en movimiento."
+    "question": "Cuando pasamos del análisis de la física teórica (cálculo diferencial) al método numérico básico de Euler, reemplazamos el infinito e imperceptible diferencial de tiempo ($dt$) por un salto o intervalo finito ($\\Delta t$). Conceptualmente, ¿qué estamos fingiendo que sucede en la naturaleza durante ese pequeño intervalo $\\Delta t$?",
+    "answer": "Al hacer esto, la aproximación de Euler \"congela\" artificialmente la dinámica del universo: estamos fingiendo que la velocidad y la aceleración se mantienen estáticas y constantes a lo largo de todo ese lapso de tiempo ($\\Delta t$, que puede ser un día entero). Al saltar temporalmente hacia el futuro con esta información congelada utilizando pura álgebra simple, introducimos un pequeño error acumulativo en las posiciones proyectadas de los planetas."
   },
   {
-    "question": "Considere un péndulo simple que se mueve en el espacio tridimensional (3 coordenadas: $x, y, z$). Explique por qué, a pesar de tener 3 coordenadas, el sistema se describe completamente con solo $M=1$ grado de libertad. ¿Qué papel fundamental juegan las restricciones holónomas en la definición de estos grados de libertad?",
-    "answer": "Los grados de libertad ($M$) representan el número mínimo de variables independientes necesarias para especificar la posición del sistema. En este caso, la partícula tiene 3 coordenadas, pero hay dos restricciones holónomas (que se pueden escribir como ecuaciones de igualdad): 1) la longitud de la cuerda es fija ($x^2 + y^2 - L^2 = 0$), y 2) la partícula se restringe a moverse en un plano (por ejemplo, $z=0$). Las restricciones holónomas ($K$) reducen el número de coordenadas ($N$): $M = N - K$, resultando en $3 - 2 = 1$ grado de libertad."
-  },
-  {
-    "question": "En un sistema con $M$ grados de libertad, se eligen $M$ variables generalizadas (${q_j}$). La condición crítica es que estas variables sean independientes. Si para un péndulo elástico (que tiene $M=2$ grados de libertad), usted elige el par (Energía Potencial Gravitatoria $V$, Ángulo $\\theta$), ¿por qué este conjunto es una mala elección de variables generalizadas?",
-    "answer": "El conjunto es malo porque las variables no son independientes. La energía potencial gravitatoria $V$ es una función directa de la altura vertical ($y$) del cuerpo, y la altura $y$ depende del ángulo $\\theta$ (y de la elongación). Si usted varía virtualmente el ángulo $\\theta$, la altura $y$ (y por ende $V$) cambia forzosamente, violando la condición de independencia, donde al variar una, la otra debe poder permanecer constante."
-  },
-  {
-    "question": "Se describe a la Mecánica Analítica (Lagrangiana) como un \"procedimiento\" o una \"receta\" para resolver problemas de mecánica, a diferencia del enfoque newtoniano. ¿Qué característica intrínseca de la formulación Lagrangiana permite que los problemas se resuelvan de manera tan sistemática?",
-    "answer": "La naturaleza sistemática se debe a que la formulación reduce el problema a la manipulación de cantidades escalares (energía cinética $T$ y fuerzas generalizadas $Q_k$), en lugar de vectores de fuerza. La estructura final de las Ecuaciones de Lagrange proporciona un marco fijo para obtener las ecuaciones de movimiento, haciendo que el proceso sea casi automático: se calcula la función cinética ($T$), se halla la fuerza generalizada ($Q_k$), y se sustituye en la fórmula canónica."
+    "question": "Si tomamos el Método Numérico de Euler y simulamos las órbitas de los planetas alrededor del Sol durante miles o millones de años, observaremos un comportamiento completamente anti-físico e irracional en el sistema resultante. ¿Cuál es la \"falla estructural\" de este método al simular sistemas dinámicos gravitatorios?",
+    "answer": "El método básico no es capaz de conservar la energía total del sistema con el paso del tiempo. Al acumularse los errores algebraicos de las diferencias finitas, el sistema inyecta energía \"fantasma\" artificial a las partículas paso tras paso. El resultado físico desastroso es que las órbitas simuladas comienzan a ganar energía e hincharse artificiosamente hasta que los planetas se alejan o escapan, razón por la cual en la astronomía profesional se requieren integradores \"simplécticos\" (como Rebound) que respetan estrictamente la conservación energética."
   }
 ]
 
@@ -76,7 +74,7 @@ const renderContentWithLaTeX = (content: string) => {
 }
 
 const getIntroArcPosition = (index: number) => {
-  const baseY = 88
+  const baseY = 68
   const spacing = 120
 
   if (index === 0) return { x: 72, y: baseY }
@@ -544,7 +542,7 @@ export default function FlashcardApp() {
           setMasterVolume={setMasterVolume}
         />
         <h1 className="text-2xl sm:text-4xl font-bold text-white mb-8 text-center">Cacería Astral de Mecánica Celeste</h1>
-        <TeamSetup onStartGame={startGame} />
+        <TeamSetup onStartGame={startGame} onRecruit={() => playSound("recruit")} />
       </div>
     )
   }
@@ -821,7 +819,23 @@ export default function FlashcardApp() {
             <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/35 via-space-900/20 to-space-900/50" />
 
             <motion.div
-              className="absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2"
+              className="absolute inset-0 flex items-center justify-center px-6"
+              initial={{ opacity: 0, scale: 0.75, y: 10, filter: "blur(10px)" }}
+              animate={{
+                opacity: [0, 1, 1, 0],
+                scale: [0.75, 1, 1, 1.08],
+                y: [10, 0, 0, -10],
+                filter: ["blur(10px)", "blur(0px)", "blur(0px)", "blur(8px)"],
+              }}
+              transition={{ duration: 1.2, times: [0, 0.24, 0.78, 1], ease: "easeOut" }}
+            >
+              <h2 className="text-center font-cinzel font-black uppercase text-space-100 text-4xl sm:text-6xl md:text-7xl tracking-[0.08em] drop-shadow-[0_0_30px_rgba(129,140,248,0.55)]">
+                Bestia Astral Primordial
+              </h2>
+            </motion.div>
+
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center"
               initial={{ opacity: 0, scale: 1.6, y: 20, filter: "blur(10px)" }}
               animate={{
                 opacity: [0, 1, 1, 1],
@@ -829,7 +843,7 @@ export default function FlashcardApp() {
                 y: [20, 0, 0, 0],
                 filter: ["blur(10px)", "blur(0px)", "blur(0px)", "blur(0px)"],
               }}
-              transition={{ duration: 1.8, times: [0, 0.2, 0.62, 1], ease: "easeOut" }}
+              transition={{ delay: 1.1, duration: 1.8, times: [0, 0.2, 0.62, 1], ease: "easeOut" }}
             >
               <div className="relative w-64 h-80 sm:w-96 sm:h-[28rem]">
                 <Image src="/boss.png" alt="Bestia Astral" fill className="object-contain drop-shadow-[0_0_30px_rgba(129,140,248,0.4)]" priority />
@@ -843,7 +857,7 @@ export default function FlashcardApp() {
               return (
                 <motion.div
                   key={`intro-${member.id}`}
-                  className="absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2"
+                  className="absolute inset-0 flex items-center justify-center"
                   initial={{ opacity: 0, x: isRight ? 90 : -90, y: 90, scale: 1.75, filter: "blur(8px)" }}
                   animate={{
                     opacity: [0, 1, 1],
@@ -852,7 +866,7 @@ export default function FlashcardApp() {
                     scale: [1.75, 1.2, 1],
                     filter: ["blur(8px)", "blur(0px)", "blur(0px)"],
                   }}
-                  transition={{ delay: 1.15 + index * 0.22, duration: 1.05, times: [0, 0.38, 1], ease: "easeOut" }}
+                  transition={{ delay: 2.0 + index * 0.22, duration: 1.05, times: [0, 0.38, 1], ease: "easeOut" }}
                 >
                   <div className="relative w-20 h-28 sm:w-24 sm:h-32">
                     {member.image ? (
@@ -868,7 +882,7 @@ export default function FlashcardApp() {
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: [0, 0, 1], y: [16, 16, 0] }}
-              transition={{ duration: 1.5, delay: 2.0, times: [0, 0.65, 1], ease: "easeOut" }}
+              transition={{ duration: 1.5, delay: 2.55, times: [0, 0.65, 1], ease: "easeOut" }}
               className="absolute inset-x-4 top-[13vh] sm:top-[15vh] mx-auto max-w-2xl"
             >
               <div className="text-center rounded-2xl border border-indigo-400/35 bg-indigo-950/45 backdrop-blur-xl px-5 py-4 sm:px-8 sm:py-6 shadow-[0_0_60px_rgba(99,102,241,0.32)]">

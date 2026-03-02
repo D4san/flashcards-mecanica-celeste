@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -9,16 +9,27 @@ import { rpgClasses } from "@/data/rpg-classes"
 import type { TeamMember } from "@/types/game"
 import { Trash2, Plus } from "lucide-react"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 
 interface TeamSetupProps {
   onStartGame: (team: TeamMember[]) => void
+  onRecruit?: () => void
 }
 
-export function TeamSetup({ onStartGame }: TeamSetupProps) {
+export function TeamSetup({ onStartGame, onRecruit }: TeamSetupProps) {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
   const [newMemberName, setNewMemberName] = useState("")
   const [selectedClass, setSelectedClass] = useState("")
+  const [recentRecruit, setRecentRecruit] = useState<TeamMember | null>(null)
+  const recruitAnimationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (recruitAnimationTimeoutRef.current) {
+        clearTimeout(recruitAnimationTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const addTeamMember = () => {
     if (newMemberName.trim() && selectedClass && teamMembers.length < 8) {
@@ -34,6 +45,17 @@ export function TeamSetup({ onStartGame }: TeamSetupProps) {
           answeredCorrectly: false,
         }
         setTeamMembers([...teamMembers, newMember])
+        setRecentRecruit(newMember)
+        onRecruit?.()
+
+        if (recruitAnimationTimeoutRef.current) {
+          clearTimeout(recruitAnimationTimeoutRef.current)
+        }
+
+        recruitAnimationTimeoutRef.current = setTimeout(() => {
+          setRecentRecruit(null)
+        }, 1600)
+
         setNewMemberName("")
         setSelectedClass("")
       }
@@ -48,6 +70,44 @@ export function TeamSetup({ onStartGame }: TeamSetupProps) {
 
   return (
     <div className="w-full max-w-7xl space-y-8 font-rajdhani">
+      <AnimatePresence>
+        {recentRecruit && (
+          <motion.div
+            key={recentRecruit.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-space-950/70 backdrop-blur-sm px-4"
+          >
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0, y: 24 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 1.03, opacity: 0, y: -10 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className="w-full max-w-md rounded-2xl border border-indigo-400/40 bg-space-900/90 p-6 text-center shadow-[0_0_35px_rgba(99,102,241,0.45)]"
+            >
+              <p className="text-xs font-audiowide tracking-[0.2em] text-indigo-300/90 uppercase">Nuevo recluta</p>
+              <div className="mx-auto mt-4 relative h-36 w-28 overflow-hidden rounded-xl border border-indigo-400/40 bg-space-950/80">
+                {recentRecruit.image ? (
+                  <Image
+                    src={recentRecruit.image || "/placeholder.svg"}
+                    alt={recentRecruit.class}
+                    fill
+                    sizes="112px"
+                    className="object-contain object-center p-1"
+                  />
+                ) : (
+                  <div className="h-full w-full flex items-center justify-center text-4xl text-indigo-200">{recentRecruit.icon}</div>
+                )}
+              </div>
+              <h3 className="mt-4 text-2xl font-cinzel font-bold text-indigo-100 break-words">{recentRecruit.name}</h3>
+              <p className="mt-1 text-sm uppercase tracking-[0.14em] text-indigo-300/80 font-audiowide">{recentRecruit.class}</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="card-glass p-8 rounded-2xl relative overflow-hidden">
         {/* Decorative Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20 pointer-events-none"></div>

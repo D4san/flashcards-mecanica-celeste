@@ -29,6 +29,7 @@ const COOLDOWNS: Record<string, number> = {
   trapReveal: 1000,
   timerWarning: 800,
   gameStart: 1000,
+  recruit: 250,
 }
 
 // ─── Hook principal ──────────────────────────────────────────────────────────
@@ -650,6 +651,21 @@ export function useSoundEffects() {
     })
   }, [scheduleNote])
 
+  const playRecruit = useCallback(() => {
+    const notes = [
+      { freq: 392, delay: 0, dur: 0.14 },
+      { freq: 523, delay: 0.1, dur: 0.16 },
+      { freq: 659, delay: 0.2, dur: 0.24 },
+    ]
+
+    notes.forEach((n) => {
+      scheduleNote(n.freq, "triangle", n.delay, n.dur, 0.22,
+        { attack: 0.02, decay: 0.12, sustain: 0.55, release: 0.31 })
+      scheduleNote(n.freq * 2, "sine", n.delay + 0.015, n.dur * 0.58, 0.07,
+        { attack: 0.02, decay: 0.1, sustain: 0.4, release: 0.3 })
+    })
+  }, [scheduleNote])
+
   // ═══════════════════════════════════════════════════════════════════════════
   //  PUBLIC API
   // ═══════════════════════════════════════════════════════════════════════════
@@ -700,6 +716,7 @@ export function useSoundEffects() {
       case "trapReveal":      playTrapReveal(); break
       case "timerWarning":    playTimerWarning(); break
       case "gameStart":       playGameStart(); break
+      case "recruit":         playRecruit(); break
       case "backgroundMusic": playBackgroundMusic(); break
       default:
         console.warn(`Sonido desconocido: ${soundType}`)
@@ -709,7 +726,7 @@ export function useSoundEffects() {
     playBossDamage,
     playCorrectAnswer, playWrongAnswer, playCardFlip,
     playMonsterHit, playMonsterDeath, playBonusMode,
-    playVictory, playTrapReveal, playTimerWarning, playGameStart,
+    playVictory, playTrapReveal, playTimerWarning, playGameStart, playRecruit,
   ])
 
   const stopAllSounds = useCallback(() => {
