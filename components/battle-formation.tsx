@@ -109,6 +109,8 @@ export function BattleFormation({
                   src={member.image || "/placeholder.svg"}
                   alt={member.class}
                   fill
+                  sizes="(max-width: 640px) 48px, 64px"
+                  loading="lazy"
                   className="object-contain"
                   style={{ filter: "drop-shadow(0 0 0 transparent)" }}
                 />

@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from "react"
 import { motion, useAnimation } from "framer-motion"
 import Image from "next/image"
 
+const BOSS_IMAGE_SRC = "/boss.webp"
+
 interface MonsterProps {
   health: number
   maxHealth: number
@@ -229,7 +231,7 @@ export function Monster({ health, maxHealth, isDead, isInBonusMode = false, prev
           >
             <div className="relative w-48 h-60 sm:w-80 sm:h-96 flex items-center justify-center">
               <Image
-                src="/boss.png"
+                src={BOSS_IMAGE_SRC}
                 alt="Bestia Astral Primordial"
                 fill
                 className="object-contain drop-shadow-2xl"
@@ -258,7 +260,7 @@ export function Monster({ health, maxHealth, isDead, isInBonusMode = false, prev
           >
             <div className="relative w-48 h-60 sm:w-80 sm:h-96 flex items-center justify-center">
               <Image
-                src="/boss.png"
+                src={BOSS_IMAGE_SRC}
                 alt="Devorador Astral Enfurecido"
                 fill
                 className="object-contain drop-shadow-2xl"

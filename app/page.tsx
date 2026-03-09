@@ -17,40 +17,44 @@ import { LaTeXRenderer } from "@/components/latex-renderer"
 import { useSoundEffects } from "@/hooks/use-sound-effects"
 import type { TeamMember, GameState, Flashcard } from "@/types/game"
 
+const BOSS_IMAGE_SRC = "/boss.webp"
+
 const initialFlashcards: Flashcard[] = [
   {
-    "question": "Si tomamos una fotografía mágica de todo el Sistema Solar donde vemos exactamente la posición de cada planeta en este instante, ¿por qué esa foto es insuficiente para predecir cómo se moverán un segundo después?",
-    "answer": "Físicamente, la fuerza de gravedad determina la aceleración de un cuerpo, no su posición directa. Matemáticamente, estamos tratando con ecuaciones diferenciales de segundo orden, lo que significa que el estado futuro de un sistema no es único solo con conocer su función (la posición); obligatoriamente necesitamos conocer su primera derivada (la velocidad). Sin la velocidad instantánea, no sabemos la dirección ni la rapidez con la que las posiciones están a punto de cambiar."
+    "question": "¿Por qué es importante buscar soluciones matemáticas o \"cuadraturas\" al problema de los N-cuerpos si ya contamos con simulaciones numéricas que pueden predecir el futuro de un sistema planetario?",
+    "answer": "Aunque las simulaciones numéricas son herramientas prácticas, solo generan aproximaciones paso a paso que pueden ser computacionalmente infinitas para predecir un futuro distante. Buscar soluciones matemáticas permite descubrir leyes fundamentales de conservación (como la energía o el momentum angular) que revelan propiedades físicas intrínsecas del universo, logrando que comprendamos el sistema sin siquiera necesitar observar las trayectorias de las partículas."
   },
   {
-    "question": "El sistema de ecuaciones del problema de los $N$ cuerpos se clasifica como \"no lineal\". ¿Qué implicación filosófica y práctica tiene el fenómeno del caos al intentar predecir la órbita de un objeto a escalas de miles de años?",
-    "answer": "El caos implica que una minúscula incertidumbre en nuestras mediciones iniciales se amplifica enormemente con el paso del tiempo. Prácticamente, significa que equivocarse por apenas un centímetro hoy puede resultar en trayectorias completamente distintas en mil años. Esto nos revela que, sin importar cuán perfecta sea nuestra teoría física o nuestras computadoras, existe un límite fundamental en nuestra capacidad de predicción a largo plazo en el universo."
+    "question": "Durante las simulaciones computacionales, se prefiere utilizar el integrador \"Leapfrog\" en lugar de un integrador básico como el método de Euler. ¿Cuál es la razón física detrás de esta preferencia matemática?",
+    "answer": "El método de Leapfrog es un método \"simpléctico\", lo que significa que garantiza que el sistema numérico obedezca las leyes fundamentales de la física, en particular, la conservación de la energía y el momentum. El método de Euler, por su naturaleza aproximativa, no conserva estas cantidades, lo que generaría un sistema planetario que gana o pierde energía de forma artificial y antinatural."
   },
   {
-    "question": "Dado que el problema diferencial es tan difícil, los físicos buscan \"cuadraturas\" (o integrales de movimiento) como la conservación del momentum. ¿Cuál es el valor conceptual profundo de encontrar una cuadratura en un sistema dinámico que no podemos resolver por completo?",
-    "answer": "Encontrar una cuadratura significa identificar una propiedad oculta en el sistema que se mantiene inmutable a pesar del caos constante de los cuerpos en movimiento (independientemente del tiempo). Su mayor poder matemático es que transforma un fragmento de un complejo problema diferencial (basado en el cambio) en un problema de álgebra pura (basado en proporciones fijas), permitiéndonos extraer verdades universales del sistema sin siquiera tener que calcular la órbita individual de cada partícula."
-  },
-  {
-    "question": "El baricentro de un sistema planetario (como el Sistema Solar) a menudo se ubica en el vacío, en un lugar donde no existe absolutamente ninguna masa material. Si ahí no hay \"nada\", ¿por qué se erige como el concepto de referencia más importante de la mecánica celeste?",
-    "answer": "Porque, independientemente del caos interno, la danza de los planetas y los millones de estrellas que interactúen, el baricentro es el único punto puramente geométrico del sistema que obedece una regla suprema: se mueve con velocidad constante (o nula) en el espacio. Esto lo convierte en el ancla ideal para fijar nuestro sistema de referencias inerciales, permitiendo que la física newtoniana se aplique sin las deformaciones que sufriríamos si nos pusiéramos sobre un planeta en constante aceleración.",
-    "nanswer": "Porque el baricentro es el único punto en todo el sistema planetario donde la suma vectorial de la gravedad de todos los cuerpos se anula por completo, creando un punto de \"gravedad cero absoluto\". Físicamente, al no haber fuerzas netas interactuando en esa coordenada geométrica específica, las ecuaciones de la mecánica clásica colapsan en valores triviales. Esto evita que los simuladores matemáticos arrojen errores al dividir por cero cuando intentan calcular aproximaciones orbitales cercanas al Sol.",
+    "question": "El \"Plano invariable de Laplace\" es un plano imaginario donde no reside ningún planeta ni cuerpo físico. ¿Por qué resulta conceptualmente superior al plano de la eclíptica (el plano de la Tierra) para establecer referencias astronómicas?",
+    "answer": "El plano de la eclíptica cambia constantemente a lo largo del tiempo debido a las perturbaciones gravitacionales de otros planetas, haciéndolo inestable. En cambio, el Plano de Laplace es perpendicular al vector de momentum angular del sistema, el cual se conserva estrictamente inalterable sin importar cómo interactúen gravitacionalmente los cuerpos en su interior durante miles de millones de años.",
+    "nanswer": "El plano de la eclíptica tiene un sesgo antropocéntrico al depender únicamente del movimiento de la Tierra. En cambio, el Plano de Laplace es conceptualmente superior porque se calcula como el promedio geométrico exacto de las inclinaciones orbitales de todos los planetas del sistema solar. Al sumar y promediar matemáticamente las masas y los ángulos de los distintos cuerpos, este plano democratiza la referencia y ofrece un \"centro de inclinación\" que cancela las perturbaciones de todo el sistema.",
     "isTrap": true
   },
   {
-    "question": "Al sumar todas las ecuaciones vectoriales individuales de un sistema de $N$ cuerpos, el lado de las fuerzas gravitacionales se convierte de inmediato en \"cero\". Conceptual y físicamente, ¿qué representa este cero y por qué ocurre?",
-    "answer": "Este cero es la encarnación matemática de la Tercera Ley de Newton (el principio de acción y reacción). Físicamente, representa que las fuerzas de atracción gravitacional son mutuas e internas al sistema; por cada \"jalón\" que la Tierra le da a la Luna, la Luna da un jalón igual y opuesto a la Tierra. Al sumarlas todas para observar el comportamiento \"global\", estas fuerzas se anulan entre sí, demostrando que un sistema aislado es incapaz de acelerarse a sí mismo."
+    "question": "Cuando se deduce la conservación del momentum angular, el profesor aplica un \"factor integrante\" multiplicando la ecuación diferencial por el producto cruz de la posición (vector r x). ¿Por qué era indispensable este truco matemático para avanzar físicamente?",
+    "answer": "Para encontrar una cuadratura (constante de movimiento), se necesita expresar las ecuaciones dinámicas como una derivada temporal directa. Dado que la ecuación original de aceleración de los N-cuerpos carecía de componentes de velocidad o de derivadas explícitas, era imposible extraer una constante; el factor integrante introdujo la heurística necesaria para transformar el problema y hacer emerger matemáticamente la rotación (velocidad angular) oculta en el sistema."
   },
   {
-    "question": "Las computadoras no procesan eficientemente ecuaciones con segundas derivadas (aceleración). El método de \"linealización\" soluciona esto, pero ¿qué precio matemático se debe pagar para rebajar el grado de las ecuaciones a uno de primer orden?",
-    "answer": "El \"precio\" es el aumento drástico en la dimensión del sistema. Al inventarnos variables nuevas artificiales para la velocidad (diciendo simplemente que la velocidad es la derivada de la posición), logramos deshacernos de la segunda derivada, pero ahora el número total de ecuaciones se duplica. Un sistema que antes tenía $3N$ ecuaciones de segundo orden, mágicamente se infla a $6N$ ecuaciones de primer orden acopladas."
+    "question": "En lugar de usar kilogramos, metros y segundos, las simulaciones de la mecánica celeste se calibran en \"unidades canónicas celestes\", haciendo que la constante de gravitación universal valga 1 (G=1). ¿Qué problema conceptual y tecnológico resuelve este cambio?",
+    "answer": "En el sistema internacional, las escalas astronómicas mezclan números gigantescos (como la masa solar) con números minúsculos (como G), superando los 40 órdenes de magnitud de diferencia, lo que causa desbordamientos o graves errores en los cálculos computacionales. Las unidades canónicas reescalan radicalmente el universo para que todas las propiedades físicas del sistema (masas, distancias, tiempos) tengan magnitudes del orden de uno, normalizando la física para la computadora."
   },
   {
-    "question": "Cuando pasamos del análisis de la física teórica (cálculo diferencial) al método numérico básico de Euler, reemplazamos el infinito e imperceptible diferencial de tiempo ($dt$) por un salto o intervalo finito ($\\Delta t$). Conceptualmente, ¿qué estamos fingiendo que sucede en la naturaleza durante ese pequeño intervalo $\\Delta t$?",
-    "answer": "Al hacer esto, la aproximación de Euler \"congela\" artificialmente la dinámica del universo: estamos fingiendo que la velocidad y la aceleración se mantienen estáticas y constantes a lo largo de todo ese lapso de tiempo ($\\Delta t$, que puede ser un día entero). Al saltar temporalmente hacia el futuro con esta información congelada utilizando pura álgebra simple, introducimos un pequeño error acumulativo en las posiciones proyectadas de los planetas."
+    "question": "Si ya logramos encontrar 9 ecuaciones basadas en las cuadraturas del momentum lineal, el centro de masa y el momentum angular, ¿por qué se afirma que este enfoque matemático resulta insuficiente para resolver el problema de los N-cuerpos?",
+    "answer": "Porque las coordenadas tridimensionales de posición y velocidad para N cuerpos conforman un total de 6N incógnitas, requiriendo exactamente 6N cuadraturas funcionales para su resolución algebraica. Para un simple sistema binario de dos cuerpos se requerirían 12 cuadraturas, haciendo que las 9 que conocemos se queden cortas para predecir analíticamente sus trayectorias."
   },
   {
-    "question": "Si tomamos el Método Numérico de Euler y simulamos las órbitas de los planetas alrededor del Sol durante miles o millones de años, observaremos un comportamiento completamente anti-físico e irracional en el sistema resultante. ¿Cuál es la \"falla estructural\" de este método al simular sistemas dinámicos gravitatorios?",
-    "answer": "El método básico no es capaz de conservar la energía total del sistema con el paso del tiempo. Al acumularse los errores algebraicos de las diferencias finitas, el sistema inyecta energía \"fantasma\" artificial a las partículas paso tras paso. El resultado físico desastroso es que las órbitas simuladas comienzan a ganar energía e hincharse artificiosamente hasta que los planetas se alejan o escapan, razón por la cual en la astronomía profesional se requieren integradores \"simplécticos\" (como Rebound) que respetan estrictamente la conservación energética."
+    "question": "La \"Vis viva\" histórica propuesta por Leibniz y Du Châtelet se definía como la masa por la velocidad al cuadrado (mv^2). Hoy sabemos que la energía cinética es la mitad de eso (1/2 mv^2). ¿De dónde surgió la necesidad conceptual de agregar ese factor fraccionario?",
+    "answer": "Surgió al intentar conciliar el comportamiento cinemático de Galileo con la idea del trabajo ejercido por la gravedad. Si se utilizaba la ecuación mv^2, se obtenía el doble de \"energía\" frente al trabajo real de la caída, por lo que se añadió el factor de 1/2 para equilibrar el Teorema del Trabajo y la Energía, formalizado por Coriolis, estableciendo que el trabajo exacto de la gravedad se convierte íntegramente en la energía cinética final.",
+    "nanswer": "El factor fraccionario se introdujo para dar cuenta de la velocidad promedio de un cuerpo en caída libre estudiado por Galileo. Como un objeto parte del reposo (velocidad inicial cero) y alcanza una velocidad máxima al chocar contra el suelo, su velocidad media durante todo el trayecto es exactamente la mitad de su velocidad final. Al multiplicar la masa por la velocidad final y luego por esta velocidad media, se obtiene como resultado deductivo la expresión de la energía: 1/2 mv^2.",
+    "isTrap": true
+  },
+  {
+    "question": "Cuando analizamos sistemas masivos como una galaxia interactuando en el espacio, sabemos que millones de estrellas chocan o desvían sus órbitas en un caos aparente. ¿Qué nos dice conceptualmente el principio de conservación del momentum angular sobre este desorden?",
+    "answer": "Nos enseña que el caos es solo aparente a nivel individual. A pesar del agitado movimiento interno, cuando se suman todas las rotaciones individuales de los cuerpos que componen el enjambre gravitacional, el giro general del conjunto se compensa de manera perfecta. Es decir, hay una simetría inquebrantable a nivel macroscópico que gobierna y limita el comportamiento de las partículas desde el momento en que se formó la galaxia o el sistema solar."
   }
 ]
 
@@ -846,7 +850,14 @@ export default function FlashcardApp() {
               transition={{ delay: 1.1, duration: 1.8, times: [0, 0.2, 0.62, 1], ease: "easeOut" }}
             >
               <div className="relative w-64 h-80 sm:w-96 sm:h-[28rem]">
-                <Image src="/boss.png" alt="Bestia Astral" fill className="object-contain drop-shadow-[0_0_30px_rgba(129,140,248,0.4)]" priority />
+                <Image
+                  src={BOSS_IMAGE_SRC}
+                  alt="Bestia Astral"
+                  fill
+                  sizes="(max-width: 640px) 256px, 384px"
+                  loading="eager"
+                  className="object-contain drop-shadow-[0_0_30px_rgba(129,140,248,0.4)]"
+                />
               </div>
             </motion.div>
 
@@ -870,7 +881,14 @@ export default function FlashcardApp() {
                 >
                   <div className="relative w-20 h-28 sm:w-24 sm:h-32">
                     {member.image ? (
-                      <Image src={member.image || "/placeholder.svg"} alt={member.class} fill className="object-contain drop-shadow-[0_0_18px_rgba(224,231,255,0.35)]" />
+                      <Image
+                        src={member.image || "/placeholder.svg"}
+                        alt={member.class}
+                        fill
+                        sizes="(max-width: 640px) 80px, 96px"
+                        loading="lazy"
+                        className="object-contain drop-shadow-[0_0_18px_rgba(224,231,255,0.35)]"
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-2xl sm:text-3xl text-white">{member.icon}</div>
                     )}
