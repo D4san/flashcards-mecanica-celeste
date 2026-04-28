@@ -11,6 +11,7 @@ interface BattleFormationProps {
   maxMonsterHealth: number
   isDead: boolean
   isInBonusMode?: boolean
+  isFiringProjectiles?: boolean
   previousHealth?: number
   playSound: (soundType: string) => void
   stopSound: (soundType: string) => void
@@ -22,6 +23,7 @@ export function BattleFormation({
   maxMonsterHealth,
   isDead,
   isInBonusMode = false,
+  isFiringProjectiles = false,
   previousHealth,
   playSound,
   stopSound,
@@ -158,38 +160,73 @@ export function BattleFormation({
               </div>
             </motion.div>
 
-            {/* Attack Line */}
-            {isAnswered && isCorrect && (
+            {/* Attack Projectile */}
+            {!isFiringProjectiles && isAnswered && isCorrect && (
               <motion.div
-                className="absolute origin-left pointer-events-none z-10"
+                className="absolute pointer-events-none z-30"
                 style={{
                   left: "50%",
                   top: "50%",
-                  width: `${Math.sqrt(pos.x * pos.x + pos.y * pos.y)}px`,
-                  transform: `translate(-50%, -50%) rotate(${Math.atan2(-pos.y, -pos.x)}rad)`,
+                  marginTop: "-12px",
+                  marginLeft: "-12px",
                 }}
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: [0, 1, 0] }}
-                transition={{ duration: 1, ease: "easeInOut" }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
               >
-                <div
-                  className="h-[2px] sm:h-[3px] w-full relative"
-                >
-                  <div className="absolute inset-0"
-                    style={{
-                      background: isInBonusMode
-                        ? "linear-gradient(90deg, transparent, #fcd34d, #f59e0b, transparent)"
-                        : "linear-gradient(90deg, transparent, #818cf8, #4f46e5, transparent)",
-                      boxShadow: `0 0 10px ${isInBonusMode ? "#fbbf24" : "#6366f1"}`,
-                    }}
-                  />
-                  {/* Energy pulse particle */}
+                {/* Static charging core over player */}
+                <div className="relative w-6 h-6 flex items-center justify-center">
                   <motion.div 
-                    className="absolute top-1/2 -translate-y-1/2 w-4 h-[4px] rounded-full blur-[1px]"
-                    style={{ background: isInBonusMode ? '#fffbeb' : '#e0e7ff', boxShadow: `0 0 8px ${isInBonusMode ? '#fef3c7' : '#e0e7ff'}` }}
-                    initial={{ left: 0 }}
-                    animate={{ left: "100%" }}
-                    transition={{ duration: 0.5, ease: "easeIn" }}
+                    className={`absolute inset-0 rounded-full blur-[4px] ${isInBonusMode ? "bg-yellow-400" : "bg-cyan-400"}`}
+                    animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0.9, 0.6] }}
+                    transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  <div className={`w-2.5 h-2.5 rounded-full z-10 ${isInBonusMode ? "bg-white shadow-[0_0_15px_#fef08a]" : "bg-white shadow-[0_0_15px_#a5f3fc]"}`} />
+                </div>
+              </motion.div>
+            )}
+
+            {isFiringProjectiles && isAnswered && isCorrect && (
+              <motion.div
+                className="absolute pointer-events-none z-30"
+                style={{
+                  left: "50%",
+                  top: "50%",
+                  marginTop: "-12px",
+                  marginLeft: "-12px",
+                }}
+                initial={{ 
+                  x: 0, 
+                  y: 0, 
+                  scale: 1, 
+                  opacity: 1,
+                }}
+                animate={{ 
+                  x: [0, -pos.x * 0.4, -pos.x * 0.8, -pos.x],
+                  y: [0, -40, -pos.y - 80, -pos.y],
+                  scale: [0, 1.8, 1.2, 0.5],
+                  opacity: [0, 0.9, 0.8, 0],
+                }}
+                transition={{ 
+                  duration: 1.2, 
+                  times: [0, 0.4, 0.8, 1], 
+                  ease: ["easeInOut", "easeIn", "easeIn"] 
+                }}
+              >
+                {/* Glowing Core */}
+                <div className="relative w-6 h-6 flex items-center justify-center">
+                  <motion.div 
+                    className={`absolute inset-0 rounded-full blur-sm ${isInBonusMode ? "bg-yellow-300" : "bg-cyan-300"}`}
+                    animate={{ scale: [1, 1.6, 1], opacity: [0.6, 0.9, 0.6] }}
+                    transition={{ duration: 0.4, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  <div className={`w-2 h-2 rounded-full z-10 ${isInBonusMode ? "bg-white shadow-[0_0_10px_#fef08a]" : "bg-white shadow-[0_0_10px_#a5f3fc]"}`} />
+                  
+                  {/* Trail rings */}
+                  <motion.div 
+                    className={`absolute inset-[-4px] rounded-full border ${isInBonusMode ? "border-yellow-200/40" : "border-cyan-200/40"}`}
+                    animate={{ scale: [1, 2], opacity: [0.8, 0] }}
+                    transition={{ duration: 0.6, repeat: Infinity, ease: "easeOut" }}
                   />
                 </div>
               </motion.div>

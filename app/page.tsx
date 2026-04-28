@@ -115,6 +115,8 @@ export default function FlashcardApp() {
   const [timerActive, setTimerActive] = useState(false)
   const [trapStage, setTrapStage] = useState<"hidden" | "bait" | "reveal" | "resolved">("hidden")
   const [showEncounterIntro, setShowEncounterIntro] = useState(false)
+  const [isFiringProjectiles, setIsFiringProjectiles] = useState(false)
+  const [isTrapLocked, setIsTrapLocked] = useState(false) // Nuevo estado para bloquear avance
   const [gameStats, setGameStats] = useState({
     totalQuestions: 0,
     correctAnswers: 0,
@@ -277,6 +279,7 @@ export default function FlashcardApp() {
     setQuestionTimer(120)
     setTimerActive(true)
     setTrapStage("hidden") // Reset trap stage
+    setIsFiringProjectiles(false) // <-- Disipamos cualquier proyectil viejo cuando empieza la nueva tarjeta
 
     setTimeout(() => {
       startAnswerTimer()
@@ -327,9 +330,10 @@ export default function FlashcardApp() {
     }))
   }
 
-  const handleTrapReveal = () => {
+    const handleTrapReveal = () => {
     setTrapStage("reveal")
     playSound("trapReveal")
+    setIsTrapLocked(true) // Bloquear botón "Siguiente"
 
     // Invert answers: Those who thought they were right (agreed with bait) are wrong.
     // Those who marked wrong (disagreed with bait) are right.
@@ -341,11 +345,17 @@ export default function FlashcardApp() {
       })),
     }))
 
-    // After animation, show real answer and move to resolved
+    // Mostrar alerta 2 segundos, luego pasar a resolved (mostrar la rta correcta)
     setTimeout(() => {
       setTrapStage("resolved")
       playSound("correctAnswer")
-    }, 4500)
+      
+      // Mantener bloqueado el botón de continuar por 4 segundos extra
+      // para que sí o sí tengan que leer la respuesta correcta.
+      setTimeout(() => {
+        setIsTrapLocked(false)
+      }, 4000)
+    }, 2000)
   }
 
   const handleNextQuestion = () => {
@@ -366,92 +376,114 @@ export default function FlashcardApp() {
     const damage = correctCount * 12
     const newHealth = Math.max(0, gameState.monsterHealth - damage)
 
-    if (damage === 0) {
-      playSound("monsterHit")
-    }
+    const applyDamageAndContinue = () => {
+      if (damage === 0) {
+        playSound("monsterHit")
+      }
 
-    setPreviousHealth(gameState.monsterHealth)
+      setPreviousHealth(gameState.monsterHealth)
 
-    setGameStats((prev) => ({
-      ...prev,
-      correctAnswers: prev.correctAnswers + correctCount,
-      totalDamage: prev.totalDamage + damage,
-      questionsCompleted: prev.questionsCompleted + 1,
-    }))
+      setGameStats((prev) => ({
+        ...prev,
+        correctAnswers: prev.correctAnswers + correctCount,
+        totalDamage: prev.totalDamage + damage,
+        questionsCompleted: prev.questionsCompleted + 1,
+      }))
 
-    let bonusPoints = 0
-    if (gameState.gamePhase === "bonus") {
-      bonusPoints = correctCount * 20
-      setGameState((prev) => ({ ...prev, bonusScore: prev.bonusScore + bonusPoints }))
-    }
+      let bonusPoints = 0
+      if (gameState.gamePhase === "bonus") {
+        bonusPoints = correctCount * 20
+        setGameState((prev) => ({ ...prev, bonusScore: prev.bonusScore + bonusPoints }))
+      }
 
-    if (correctCount > 0) {
-      confetti({
-        particleCount: correctCount * 15,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: gameState.gamePhase === "bonus" ? ["#FFD700", "#FFA500", "#FF6347"] : undefined,
-      })
+      if (correctCount > 0) {
+        confetti({
+          particleCount: correctCount * 25,
+          spread: 120,
+          origin: { y: 0.5 },
+          colors: gameState.gamePhase === "bonus" 
+            ? ["#fbbf24", "#f59e0b", "#ffffff", "#fef08a"] // Supercharged golden/white
+            : ["#818cf8", "#c084fc", "#38bdf8", "#ffffff"], // Astral purple/cyan/white
+          shapes: ["star" as any, "circle" as any],
+          gravity: 0.4,
+          scalar: 0.8,
+          ticks: 300,
+        })
+      }
+
+      setGameState((prev) => ({ ...prev, monsterHealth: newHealth }))
+
+      const isLastQuestion = gameState.currentCardIndex >= flashcards.length - 1
+
+      if (newHealth <= 0 && gameState.gamePhase !== "bonus") {
+        setGameState((prev) => ({ ...prev, gamePhase: "bonus" }))
+        startCoinCelebration()
+
+        if (isLastQuestion) {
+          setTimeout(() => {
+            setGameState((prev) => ({ ...prev, gamePhase: "victory" }))
+            playSound("victory")
+            startVictoryCelebration()
+          }, 3500)
+          return
+        } else {
+          setTimeout(() => {
+            setGameState((prev) => ({ ...prev, currentCardIndex: prev.currentCardIndex + 1 }))
+            resetCard()
+          }, 3500)
+          return
+        }
+      }
+
+      if (isLastQuestion) {
+        if (gameState.gamePhase === "bonus" || newHealth <= 0) {
+          setTimeout(() => {
+            setGameState((prev) => ({ ...prev, gamePhase: "victory" }))
+            playSound("victory")
+            startVictoryCelebration()
+          }, 3500)
+          return
+        } else {
+          setTimeout(() => {
+            setGameState((prev) => ({ ...prev, gamePhase: "gameOver" }))
+            playSound("monsterDeath")
+          }, 3500)
+          return
+        }
+      }
+
+      setTimeout(() => {
+        setGameState((prev) => ({ ...prev, currentCardIndex: prev.currentCardIndex + 1 }))
+        resetCard()
+      }, 1500)
     }
 
     setShowQuestion(false)
     setShowEvaluation(false)
 
-    setGameState((prev) => ({ ...prev, monsterHealth: newHealth }))
-
-    const isLastQuestion = gameState.currentCardIndex >= flashcards.length - 1
-
-    // const damageAnimationDelay = 3500 // This was commented out in the original update, so I'm removing it.
-    // const trapDelay = isTrapQuestion ? 2000 : 0 // This was commented out in the original update, so I'm removing it.
-    // const totalDelay = damageAnimationDelay + trapDelay // This was commented out in the original update, so I'm removing it.
-
-    if (newHealth <= 0 && gameState.gamePhase !== "bonus") {
-      setGameState((prev) => ({ ...prev, gamePhase: "bonus" }))
-      startCoinCelebration()
-
-      if (isLastQuestion) {
-        setTimeout(() => {
-          setGameState((prev) => ({ ...prev, gamePhase: "victory" }))
-          playSound("victory")
-          startVictoryCelebration()
-        }, 3500) // Simplificado delay
-        return
-      } else {
-        setTimeout(() => {
-          setGameState((prev) => ({ ...prev, currentCardIndex: prev.currentCardIndex + 1 }))
-          resetCard()
-        }, 3500)
-        return
-      }
+    if (correctCount > 0) {
+      setIsFiringProjectiles(true)
+      // Lanzar proyectiles visualmente primero, y un segundo después aplicar dardo/daño
+      setTimeout(() => {
+        applyDamageAndContinue()
+      }, 1000)
+    } else {
+      applyDamageAndContinue()
     }
-
-    if (isLastQuestion) {
-      if (gameState.gamePhase === "bonus" || newHealth <= 0) {
-        setTimeout(() => {
-          setGameState((prev) => ({ ...prev, gamePhase: "victory" }))
-          playSound("victory")
-          startVictoryCelebration()
-        }, 3500)
-        return
-      } else {
-        setTimeout(() => {
-          setGameState((prev) => ({ ...prev, gamePhase: "gameOver" }))
-          playSound("monsterDeath")
-        }, 3500)
-        return
-      }
-    }
-
-    setTimeout(() => {
-      setGameState((prev) => ({ ...prev, currentCardIndex: prev.currentCardIndex + 1 }))
-      resetCard()
-    }, 1500) // Reduced delay for normal questions
   }
 
   const startVictoryCelebration = () => {
     const duration = 8 * 1000
     const animationEnd = Date.now() + duration
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+    const defaults = { 
+      startVelocity: 45, 
+      spread: 360, 
+      ticks: 120, 
+      zIndex: 0,
+      shapes: ["star" as any, "circle" as any],
+      colors: ["#ffffff", "#818cf8", "#c084fc", "#fde047", "#38bdf8"],
+      gravity: 0.3
+    }
 
     const interval: NodeJS.Timeout = setInterval(() => {
       const timeLeft = animationEnd - Date.now()
@@ -462,8 +494,8 @@ export default function FlashcardApp() {
       confetti(
         Object.assign({}, defaults, {
           particleCount,
-          origin: { x: Math.random(), y: Math.random() * 0.5 },
-          colors: ["#FFD700", "#FFA500", "#FFFF00", "#DAA520", "#B8860B"],
+          origin: { x: Math.random(), y: Math.random() * 0.5 - 0.2 },
+          scalar: Math.random() * 0.8 + 0.5,
         }),
       )
     }, 150)
@@ -480,15 +512,15 @@ export default function FlashcardApp() {
       }
 
       confetti({
-        particleCount: 15,
-        spread: 60,
-        origin: { x: Math.random(), y: Math.random() * 0.3 + 0.1 },
-        colors: ["#FFD700", "#FFA500", "#FFFF00", "#DAA520", "#B8860B"],
-        shapes: ["circle"],
-        scalar: 1.2,
-        gravity: 0.8,
-        drift: Math.random() * 2 - 1,
-        ticks: 200,
+        particleCount: 20,
+        spread: 100,
+        origin: { x: Math.random(), y: Math.random() * 0.3 - 0.1 },
+        colors: ["#fbbf24", "#ffffff", "#fef08a", "#f59e0b"],
+        shapes: ["star" as any],
+        scalar: 1.5,
+        gravity: 0.1,
+        drift: Math.random() * 3 - 1.5,
+        ticks: 300,
       })
     }, 300)
   }
@@ -508,12 +540,14 @@ export default function FlashcardApp() {
     setShowEncounterIntro(false)
     setShowQuestion(false)
     setShowEvaluation(false)
+    setIsFiringProjectiles(false) // <-- Reseteamos los proyectiles
     setGameStats({
       totalQuestions: 0,
       correctAnswers: 0,
       totalDamage: 0,
       questionsCompleted: 0,
     })
+    setIsTrapLocked(false)
   }
 
   const allMembersAnswered = gameState.teamMembers.every((member) => member.hasAnswered)
@@ -800,6 +834,7 @@ export default function FlashcardApp() {
             maxMonsterHealth={gameState.maxMonsterHealth}
             isDead={gameState.monsterHealth <= 0}
             isInBonusMode={gameState.gamePhase === "bonus"}
+            isFiringProjectiles={isFiringProjectiles}
             previousHealth={previousHealth}
             playSound={playSound}
             stopSound={stopSound}
@@ -1058,6 +1093,7 @@ export default function FlashcardApp() {
                     isFlipped={gameState.isFlipped}
                     isInBonusMode={gameState.gamePhase === "bonus"}
                     buttonText={isTrapQuestion && trapStage === "bait" ? "⚠️ ROMPER EMBRUJO ⚠️" : undefined}
+                    isLocked={isTrapLocked}
                   />
                 </div>
               </motion.div>

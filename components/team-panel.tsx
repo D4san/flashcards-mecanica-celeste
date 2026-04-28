@@ -14,6 +14,7 @@ interface TeamPanelProps {
   isFlipped: boolean
   isInBonusMode?: boolean
   buttonText?: string
+  isLocked?: boolean
 }
 
 export function TeamPanel({
@@ -24,6 +25,7 @@ export function TeamPanel({
   isFlipped,
   isInBonusMode = false,
   buttonText,
+  isLocked = false,
 }: TeamPanelProps) {
   if (!isFlipped) return null
 
@@ -148,13 +150,16 @@ export function TeamPanel({
             <Button
               onClick={onContinue}
               size="lg"
+              disabled={isLocked}
               className={`${
-                isInBonusMode
-                  ? "bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-black shadow-[0_0_30px_rgba(234,179,8,0.4)]"
-                  : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-[0_0_30px_rgba(99,102,241,0.4)]"
+                isLocked 
+                  ? "bg-gray-700/80 cursor-not-allowed text-gray-400 opacity-60 pointer-events-none" 
+                  : isInBonusMode
+                    ? "bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-black shadow-[0_0_30px_rgba(234,179,8,0.4)]"
+                    : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-[0_0_30px_rgba(99,102,241,0.4)]"
               } px-14 py-6 text-xl font-audiowide tracking-widest border border-white/20`}
             >
-              {buttonText ? (
+              {isLocked ? "CARGANDO DATOS..." : buttonText ? (
                 buttonText
               ) : isInBonusMode ? (
                 <>
