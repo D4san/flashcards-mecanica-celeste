@@ -21,36 +21,40 @@ const BOSS_IMAGE_SRC = "/boss.webp"
 
   const initialFlashcards: Flashcard[] = [
   {
-    "question": "Al visualizar la órbita en el plano, se observa que al aumentar la excentricidad ($e$) no solo cambia la forma geométrica, sino el \"centrado\" de la curva respecto al origen. ¿Qué implicación histórica y física tiene este desplazamiento del centro para nuestra comprensión del sistema solar?",
-    "answer": "Físicamente, el origen de coordenadas en el sistema perifocal siempre representa el foco (donde se ubica el centro de masa o el cuerpo central). Históricamente, este desplazamiento geométrico fue lo que confundió a los primeros astrónomos; la teoría de Copérnico intentaba explicar este \"descentrado\" usando el concepto del ecuante y epiciclos, porque asumían órbitas circulares. Fue Johannes Kepler quien, a pesar de que las excentricidades planetarias son muy pequeñas, tuvo el ingenio de darse cuenta de que estas órbitas descentradas eran en realidad elipses con el Sol en uno de sus focos."
+    "question": "¿Por qué se afirma que un cuerpo real en el sistema solar (como el Sol o un asteroide) tiene \"elementos orbitales\" si su trayectoria nunca es una cónica perfecta?",
+    "answer": "En la naturaleza no existen órbitas cónicas perfectas debido a la perturbación constante de múltiples cuerpos. Sin embargo, podemos asignar elementos orbitales utilizando el concepto de \"órbita osculatriz\". Esta es una cónica instantánea teórica que \"besa\" (es tangente a) la trayectoria real en un punto específico, compartiendo exactamente la misma posición y velocidad que el cuerpo real en ese instante. Debido a esto, los elementos orbitales de un cuerpo real no son fijos, sino que cambian constantemente a medida que evoluciona la órbita osculatriz."
   },
   {
-    "question": "La ecuación analítica deducida para el problema de los dos cuerpos resuelve únicamente el comportamiento del \"vector relativo\". Si este vector es una construcción matemática abstracta, ¿cómo damos el salto conceptual para determinar las trayectorias reales y absolutas de los dos cuerpos en el espacio?",
-    "answer": "El salto se logra mediante las transformaciones de Jacobi. Dado que la gravedad actúa mutuamente, el único punto de anclaje absoluto que no se acelera es el centro de masa del sistema. Una vez que conocemos el vector relativo (la distancia y orientación abstracta entre ambos cuerpos), utilizamos las proporciones de sus masas ($m_1$ y $m_2$) para proyectar esa distancia abstracta en dos trayectorias físicas reales que orbitan alrededor del centro de masa común."
+    "question": "¿Por qué resulta problemático usar el semieje mayor ($a$) como parámetro para describir todas las órbitas y qué alternativas nos evitan ese problema matemático?",
+    "answer": "El semieje mayor presenta una singularidad matemática que le hace perder su significado físico intuitivo de \"longitud\" en órbitas abiertas: para órbitas parabólicas su valor tiende a infinito, y para órbitas hiperbólicas toma valores negativos. Para evitar este problema y tener un parámetro de tamaño válido en todas las cónicas, se prefiere usar el semilatus rectum ($p$) o la distancia del periapsis ($q$), los cuales siempre devuelven valores positivos y bien definidos geométricamente."
   },
   {
-    "question": "La solución analítica del problema relativo ($\\vec{r}$ en función del ángulo $\\theta$) es matemáticamente impecable, pero el profesor menciona que no sirve para hacer \"horóscopos\" astronómicos. ¿Qué limitación fundamental tiene esta ecuación desde el punto de vista dinámico?",
-    "answer": "La gran limitación es que el tiempo no aparece explícitamente en la solución geométrica. La fórmula nos proporciona una \"instantánea de toda la eternidad\", indicándonos a qué distancia estará el cuerpo dado un ángulo específico, pero no nos dice absolutamente nada sobre cuánto tiempo le tomará viajar de un punto a otro. Resuelve la geometría de la trayectoria, pero no la dinámica temporal de la misma."
+    "question": "Si observamos un nuevo asteroide y tomamos una única medida de su posición ($x, y, z$) respecto al Sol, ¿por qué resulta completamente imposible determinar el plano en el que orbita?",
+    "answer": "Un solo punto en el espacio, junto con la posición del cuerpo central (el origen), únicamente define una línea recta, y por una línea recta pueden pasar infinitos planos. Para poder fijar y conocer de manera única el plano orbital, necesitaríamos al menos un segundo punto de posición, o en su defecto, conocer el vector velocidad instantáneo; con la posición y la velocidad se puede obtener el momento angular ($\\vec{h} = \\vec{r} \\times \\vec{v}$), cuyo vector perpendicular es el que define la orientación inercial del plano de la órbita."
   },
   {
-    "question": "Al calcular las \"cuadraturas\" o constantes del movimiento a partir de las condiciones iniciales, se obtiene un valor para la energía relativa específica ($\\epsilon$). Si este valor es negativo, ¿qué nos está diciendo fundamentalmente sobre el futuro del sistema y la forma de su órbita?",
-    "answer": "Un valor negativo en la energía relativa específica indica que las dos partículas están gravitacionalmente ligadas. Geométricamente, esto impone una condición estricta: las trayectorias resultantes deben ser cerradas y acotadas (como una elipse o una circunferencia), en contraposición a las órbitas abiertas (parábolas o hipérbolas) que escaparían al infinito si la energía fuera cero o positiva."
+    "question": "Si la famosa ecuación de la \"Vis Viva\" nos permite conocer la velocidad de un cuerpo en cualquier punto de su órbita basándonos en su distancia ($r$), ¿por qué no es suficiente para predecir el futuro estado de la partícula?",
+    "answer": "La ecuación de la Vis Viva solo nos entrega la magnitud de la velocidad (su rapidez escalar). Aunque nos dice qué tan rápido se mueve el cuerpo (por ejemplo, en kilómetros por segundo), no nos proporciona ninguna información sobre la dirección u orientación del vector velocidad en el espacio 3D. Para tener el \"vector de estado\" completo que prediga la trayectoria necesitamos también componentes vectoriales y direccionales (como los que nos dan el producto cruz o el ángulo $\\phi$).",
+    "nanswer": "La ecuación de la Vis Viva no es suficiente porque es una relación puramente escalar derivada de la conservación de la energía mecánica, en la cual la variable del tiempo ($t$) no aparece de forma explícita. Al no ser una ecuación diferencial dependiente del tiempo, solo nos proporciona una \"fotografía\" estática de la energía en función de la distancia $r$, obligándonos a utilizar las Leyes de Newton para poder evolucionar el sistema hacia el futuro.",
+    "isTrap": true
   },
   {
-    "question": "El vector de Laplace ($\\vec{e}$) es una cantidad derivada de las posiciones y velocidades iniciales. Más allá de ser una constante matemática, ¿qué información visual y estructural le otorga este vector al marco de referencia de la órbita?",
-    "answer": "El vector de Laplace actúa como la \"brújula\" estructural de la órbita. Su dirección apunta inexorablemente hacia el periapsis (el punto de mínima distancia entre los dos cuerpos). Además, la magnitud de este vector es exactamente igual a la excentricidad de la órbita, dándonos de forma simultánea la orientación principal de la elipse y su nivel de achatamiento."
+    "question": "Desde un punto de vista geométrico, ¿qué es el hodógrafo y qué peculiaridad nos revela sobre la aceleración y la velocidad en el problema de los dos cuerpos?",
+    "answer": "El hodógrafo es el lugar geométrico que dibuja la punta del vector velocidad (dibujado siempre desde un origen común) a medida que el cuerpo recorre la órbita. Lo fascinante en el problema de los dos cuerpos es que, independientemente de que la órbita sea una elipse achatada, el hodógrafo de la velocidad siempre describe una circunferencia perfecta. Lo único que cambia cuando varía la excentricidad es que el centro de dicha circunferencia se desplaza y deja de coincidir con el origen."
   },
   {
-    "question": "Cuando se altera la condición inicial de la velocidad (dándole un pequeño ángulo), la trayectoria calculada mediante integración numérica y la trayectoria de la fórmula analítica dejan de coincidir en la pantalla, aunque ambas sean físicamente correctas. ¿Por qué ocurre esta aparente contradicción?",
-    "answer": "La contradicción surge por un conflicto de sistemas de referencia. La ecuación analítica fue deducida asumiendo el \"sistema natural\" o perifocal de la cónica, donde el eje X siempre se alinea rígidamente con el periapsis. Al alterar la velocidad, la órbita real (capturada por la integración numérica) rota en el espacio absoluto. Para que ambas coincidan visualmente, se hace imperativo aplicar transformaciones matriciales (rotaciones de ejes) que traduzcan la cónica teórica al sistema de coordenadas del observador."
+    "question": "¿En qué únicos lugares específicos de una órbita el vector que indica la posición del cuerpo ($\\vec{r}$) y su vector de velocidad ($\\vec{v}$) son perfectamente perpendiculares?",
+    "answer": "Solo en los ápsides de la trayectoria (es decir, en el periapsis y en el apoapsis) el ángulo entre la posición y la velocidad es exactamente de 90 grados. En cualquier otro punto de la órbita, el cuerpo se está acercando o alejando del foco, por lo que la velocidad tiene una componente radial que destruye esa perpendicularidad perfecta geométrica que sí ocurre en los puntos de máxima y mínima aproximación."
   },
   {
-    "question": "Para orientar una órbita en un plano bidimensional, solo necesitamos un ángulo (el argumento del periapsis). Sin embargo, en el espacio tridimensional necesitamos exactamente tres ángulos (Teorema de Euler). Conceptualmente, ¿qué papel juega cada uno de estos tres giros sucesivos para ubicar cualquier órbita en el universo?",
-    "answer": "La orientación tridimensional requiere posicionar un plano en el espacio y luego orientar la figura dentro de él. El primer giro (Longitud del nodo, $\\Omega$) rota el sistema sobre el eje Z original para ubicar la \"bisagra\" o línea de intersección entre el plano base y el plano orbital. El segundo giro (Inclinación, $i$) dobla el espacio sobre esa nueva bisagra (eje X rotado) para darle el \"inclinamiento\" al plano orbital. Finalmente, el tercer giro (Argumento del periapsis, $\\omega$) rota sobre el nuevo eje Z levantado, posicionando el periapsis de la elipse dentro de ese plano ya inclinado."
+    "question": "Si tomamos la transformación del \"vector de estado\" (posiciones y velocidades instantáneas) a \"elementos orbitales\", ¿cuál sería la única condición física hipotética en la que los 5 parámetros espaciales permanecerían estrictamente constantes?",
+    "answer": "Para que los cinco parámetros geométricos ($p, e, I, \\Omega, \\omega$) sean matemáticamente inmutables a lo largo del tiempo, la trayectoria descrita debería ser una cónica inalterable. Físicamente, esto solo podría ocurrir si existiesen únicamente dos cuerpos masivos en todo el universo. La presencia de cualquier tercer objeto (como otros planetas en nuestro sistema) introduce perturbaciones gravitacionales, causando que esos elementos varíen y evolucionen permanentemente."
   },
   {
-    "question": "Matemáticamente, se introduce un vector clave llamado $\\vec{n}$ (vector nodo) calculado como el producto cruz entre el vector $\\hat{k}$ (eje Z de referencia) y el momento angular $\\vec{h}$. ¿Qué representa físicamente la dirección de este vector en la estructura del sistema solar y por qué es vital para eventos astronómicos?",
-    "answer": "El vector nodo $\\vec{n}$ marca la \"Línea de los nodos\", que es la línea exacta de intersección entre el plano de referencia (como la eclíptica) y el plano inclinado de la órbita del cuerpo celeste. Físicamente, representa los dos únicos puntos donde el objeto en órbita cruza el plano de la Tierra. Esto es vital astronómicamente porque es exclusivamente a lo largo de esta línea donde pueden ocurrir alineaciones perfectas, dando lugar a eventos como los eclipses solares y lunares."
+    "question": "Sabemos transformar coordenadas con la anomalía verdadera ($f$) para encontrar el lugar exacto del cuerpo en la trayectoria. Pero, ¿por qué esta variable $f$ no nos sirve directamente para predecir en qué tiempo estará el cuerpo allí?",
+    "answer": "La anomalía verdadera describe perfectamente la posición puramente espacial (el \"dónde\") desde el foco geométrico de la cónica, pero no varía a un ritmo constante en el tiempo; avanza más rápido cuando el cuerpo se acerca al foco y más lento cuando se aleja. Dado que el tiempo transcurrido solo podemos predecirlo mediante la Segunda Ley de Kepler (que vincula tiempo con área barrida, no con un ángulo simple), es necesario recurrir a áreas o relacionarlo indirectamente empleando la llamada anomalía excéntrica ($E$).",
+    "nanswer": "Porque la anomalía verdadera ($f$) es una coordenada polar geométrica cuyo vértice se sitúa en el centro de la elipse. Dado que la Segunda Ley de Kepler establece que el momento angular se conserva y las áreas se barren respecto al foco (donde se encuentra el cuerpo masivo principal), utilizar $f$ genera un desfase geométrico. Para poder calcular el tiempo correctamente, debemos usar un ángulo que nazca desde el foco, tarea que cumple la anomalía excéntrica ($E$).",
+    "isTrap": true
   }
 ]
 
@@ -341,7 +345,7 @@ export default function FlashcardApp() {
     setTimeout(() => {
       setTrapStage("resolved")
       playSound("correctAnswer")
-    }, 2000)
+    }, 4500)
   }
 
   const handleNextQuestion = () => {
@@ -354,12 +358,9 @@ export default function FlashcardApp() {
     }
 
     let actualCorrectAnswers: TeamMember[]
-    if (isTrapQuestion) {
-      actualCorrectAnswers = gameState.teamMembers.filter((member) => member.hasAnswered && !member.answeredCorrectly)
-      // Trap reveal is handled by effect now, but we keep this flag if needed
-    } else {
-      actualCorrectAnswers = gameState.teamMembers.filter((member) => member.answeredCorrectly)
-    }
+    // Para preguntas trampa, el estado de answeredCorrectly ya fue invertido en handleTrapReveal,
+    // así que ahora podemos contarlos normalmente como si fueran respuestas correctas estándar.
+    actualCorrectAnswers = gameState.teamMembers.filter((member) => member.hasAnswered && member.answeredCorrectly)
 
     const correctCount = actualCorrectAnswers.length
     const damage = correctCount * 12
@@ -916,12 +917,15 @@ export default function FlashcardApp() {
             className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
           >
             <div className="bg-red-950/80 backdrop-blur-md text-red-500 px-12 py-8 rounded-2xl shadow-[0_0_100px_rgba(220,38,38,0.5)] border border-red-500/50 transform rotate-[-3deg] relative overflow-hidden flex flex-col items-center">
-              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20 Mix-blend-overlay"></div>
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20 mix-blend-overlay"></div>
               <AlertTriangle className="w-16 h-16 mb-4 animate-pulse text-red-500" />
-              <h2 className="text-7xl font-cinzel font-black uppercase tracking-widest drop-shadow-[0_0_15px_rgba(239,68,68,0.8)] text-shadow-red relative z-10">
-                ¡EMBOSCADA!
+              <h2 className="text-5xl sm:text-7xl font-cinzel font-black uppercase tracking-widest drop-shadow-[0_0_15px_rgba(239,68,68,0.8)] text-shadow-red relative z-10">
+                ¡ES UNA TRAMPA!
               </h2>
-              <div className="mt-2 text-red-400/80 font-audiowide tracking-widest text-lg">EMBRUJO DETECTADO</div>
+              <div className="mt-4 text-center z-10">
+                <p className="text-red-200 text-xl sm:text-3xl font-bold mb-2">¡Todo el equipo fue engañado!</p>
+                <p className="text-red-400 font-audiowide tracking-widest text-lg animate-pulse">PREPÁRENSE PARA REVISAR LA VERDADERA RESPUESTA</p>
+              </div>
             </div>
           </motion.div>
         )}
